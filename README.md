@@ -1,2 +1,2 @@
-UBUNTU base PHP
-===============
+UBUNTU PHP dev image
+====================

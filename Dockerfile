@@ -1,43 +1,44 @@
-FROM jorge07/ubuntu:16.10
+FROM jorge07/ubuntu:php
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV NOTVISIBLE "in users profile"
+
+ARG SSH_USER root
+ARG SSH_PASS root
 
 # Install base packages
-RUN locale-gen en_US.UTF-8 \
-    && export LANG=en_US.UTF-8 \
-    && export LC_ALL=en_US.UTF-8 \
-
-    && add-apt-repository ppa:maxmind/ppa \
-    && add-apt-repository ppa:ondrej/php \
-
-    && apt-get update \
-    && apt-get -yq --force-yes install \
-      php7.0-curl \
-      php7.0-mysql \
-      php7.0-intl \
-      php7.0-memcached \
-      php7.0-memcache \
-      php7.0-gd \
-      php7.0-geoip \
-      php7.0-intl \
-      php7.0-ldap \
-      php7.0-mcrypt \
-      php7.0-readline \
-      php7.0-xml \
-      php7.0-mbstring \
-      php7.0-zip \
-      libmaxminddb0 \
-      libmaxminddb-dev \
-      net-tools \
-      mmdb-bin \
-      curl \
+RUN apt-get update && apt-get install \
+      openssh-server \
+      supervisor \
       git \
-      zip \
-      unzip \
+      apache-ant \
+      php7.0-xdebug \
+
     && rm -rf /var/lib/apt/lists/* \
 
-    && phpenmod -v 7.0 mcrypt \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer global require "hirak/prestissimo:^0.3" \
 
-    && curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz \
-    && gunzip GeoLite2-Country.mmdb.gz
+    # Install phpunit
+    && wget https://phar.phpunit.de/phpunit.phar \
+    && chmod +x phpunit.phar \
+    && mv phpunit.phar /usr/bin/phpunit \
 
+    # Install Psy, a debug tool
+    && wget https://git.io/psysh \
+    && chmod +x psysh \
+    && mv psysh /usr/bin/psysh \
+
+    # Install SSH Server to connect with your favourite IDE
+    && mkdir -p /var/run/sshd \
+    && echo "${SSH_USER}:${SSH_PASS}" | chpasswd \
+    && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+
+    # SSH login fix. Otherwise user is kicked off after login
+    && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
+    && echo "export VISIBLE=now" >> /etc/profile
+
+COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 22 9000
+
+ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]

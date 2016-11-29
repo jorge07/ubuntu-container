@@ -1,2 +1,2 @@
-UBUNTU base container with tini as entry point.
-===============================================
+UBUNTU base PHP
+===============

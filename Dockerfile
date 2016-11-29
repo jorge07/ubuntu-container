@@ -31,7 +31,6 @@ RUN locale-gen en_US.UTF-8 \
       net-tools \
       mmdb-bin \
       curl \
-      git \
       zip \
       unzip \
     && rm -rf /var/lib/apt/lists/* \
@@ -41,3 +40,6 @@ RUN locale-gen en_US.UTF-8 \
     && curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz \
     && gunzip GeoLite2-Country.mmdb.gz
 
+EXPOSE 9000
+
+CMD ["/usr/sbin/php7-fpm", "-R", "--nodaemonize"]

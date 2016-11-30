@@ -10,7 +10,8 @@ RUN locale-gen en_US.UTF-8 \
     && add-apt-repository ppa:ondrej/php \
 
     && apt-get update \
-    && apt-get -yq --force-yes install \
+    && apt-get -yq --allow-unauthenticated install \
+      php7.0 \
       php7.0-curl \
       php7.0-mysql \
       php7.0-intl \
@@ -38,7 +39,3 @@ RUN locale-gen en_US.UTF-8 \
 
     && curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz \
     && gunzip GeoLite2-Country.mmdb.gz
-
-EXPOSE 9000
-
-CMD ["/usr/sbin/php7-fpm", "-R", "--nodaemonize"]

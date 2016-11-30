@@ -1,16 +1,18 @@
 FROM jorge07/ubuntu:php
 
-ENV NOTVISIBLE "in users profile"
+ENV NOTVISIBLE="in users profile"
 
-ARG SSH_USER root
-ARG SSH_PASS root
+ARG SSH_USER=root
+ARG SSH_PASS=root
 
 # Install base packages
-RUN apt-get update && apt-get install \
+RUN apt-get update && apt-get install -y --allow-unauthenticated \
       openssh-server \
       supervisor \
       git \
-      apache-ant \
+      ant \
+      php7.0-curl \
+      php7.1-curl \
       php7.0-xdebug \
 
     && rm -rf /var/lib/apt/lists/* \

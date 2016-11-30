@@ -11,8 +11,6 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
       supervisor \
       git \
       ant \
-      php7.0-curl \
-      php7.1-curl \
       php7.0-xdebug \
 
     && rm -rf /var/lib/apt/lists/* \
@@ -40,8 +38,8 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
     && echo "export VISIBLE=now" >> /etc/profile
 
 COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
-
-COPY config/php/xdebug.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
-EXPOSE 22 9000
+COPY config/php/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
+
+EXPOSE 22 9000

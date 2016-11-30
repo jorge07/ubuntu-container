@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
 
 COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 
+COPY config/php/xdebug.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
 EXPOSE 22 9000
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]

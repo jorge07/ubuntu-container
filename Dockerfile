@@ -1,45 +1,20 @@
-FROM jorge07/ubuntu:php
-
-ENV NOTVISIBLE="in users profile"
-
-ARG SSH_USER=root
-ARG SSH_PASS=root
+FROM jorge07/ubuntu:php-dev
 
 # Install base packages
 RUN apt-get update && apt-get install -y --allow-unauthenticated \
-      openssh-server \
-      supervisor \
-      git \
-      ant \
-      php7.0-xdebug \
+      apache2 \
+      libapache2-mod-php7.0 \
 
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
 
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer global require "hirak/prestissimo:^0.3" \
-
-    # Install phpunit
-    && wget https://phar.phpunit.de/phpunit.phar \
-    && chmod +x phpunit.phar \
-    && mv phpunit.phar /usr/bin/phpunit \
-
-    # Install Psy, a debug tool
-    && wget https://git.io/psysh \
-    && chmod +x psysh \
-    && mv psysh /usr/bin/psysh \
-
-    # Install SSH Server to connect with your favourite IDE
-    && mkdir -p /var/run/sshd \
-    && echo "${SSH_USER}:${SSH_PASS}" | chpasswd \
-    && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
-
-    # SSH login fix. Otherwise user is kicked off after login
-    && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
-    && echo "export VISIBLE=now" >> /etc/profile
-
-COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+# Overwrite default Virtual Host
+COPY config/apache/virtualhost.conf /etc/apache2/sites-enabled/000-default.conf
+# Overwrite default php config
 COPY config/php/xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+# Overwrite supervisor config
+COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
 
-EXPOSE 22 9000
+EXPOSE 22 9000 80

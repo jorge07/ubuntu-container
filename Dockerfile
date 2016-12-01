@@ -18,6 +18,7 @@ RUN locale-gen en_US.UTF-8 \
       php7.0-memcached \
       php7.0-memcache \
       php7.0-gd \
+      php7.0-apc \
       php7.0-geoip \
       php7.0-intl \
       php7.0-ldap \

@@ -1,4 +1,4 @@
-FROM jorge07/ubuntu:php
+FROM jorge07/ubuntu-php:7
 
 ENV NOTVISIBLE="in users profile"
 

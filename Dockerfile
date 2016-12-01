@@ -1,4 +1,4 @@
-FROM jorge07/ubuntu:php
+FROM jorge07/ubuntu-php:7.0
 
 # Install base packages
 RUN apt-get update && apt-get install -y --allow-unauthenticated \

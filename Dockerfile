@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
       apache2 \
       libapache2-mod-php7.0 \
 
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && a2enmod rewrite expires headers
 
 # Overwrite default Virtual Host
 COPY config/apache/virtualhost.conf /etc/apache2/sites-enabled/000-default.conf

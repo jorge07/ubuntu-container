@@ -1,0 +1,11 @@
+export CHARSET=UTF-8
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PAGER=less
+export PS1='\h:\w\$ '
+
+umask 022
+
+alias xon='mv /tmp/20-xdebug.ini /etc/php/7.0/cli/conf.d'
+alias xoff='mv /etc/php/7.0/cli/conf.d/20-xdebug.ini /tmp'
+
+alias profile='XDEBUG_CONFIG="profiler_enable=1 xdebug.profiler_output_name=profiler.out.%p profiler_output_dir=." php'

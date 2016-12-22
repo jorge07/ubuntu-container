@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
 COPY config/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/php/php.ini /etc/php/7.0/cli/conf.d/php.ini
 COPY config/php/xdebug.ini /tmp/20-xdebug.ini
-COPY config/env/rc /root/.bashrc
+COPY config/env/aliases /root/.bash_aliases
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
 

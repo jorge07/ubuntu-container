@@ -1,12 +1,5 @@
-FROM ubuntu:yakkety
+FROM jorge07/ubuntu:16.10
 
-ENV TINI_VERSION v0.13.0
-
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/local/bin/tini
-
-RUN chmod +x /usr/local/bin/tini \
-
-    && apt-get update && apt-get install -y software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-
-ENTRYPOINT ["/usr/local/bin/tini", "--"]
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs build-essential \
+    && npm i -g yarn

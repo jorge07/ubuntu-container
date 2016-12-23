@@ -1,5 +1,8 @@
 FROM jorge07/ubuntu:16.10
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-    && apt-get install -y nodejs build-essential \
+RUN apt-get update \
+    && apt-get install -y curlbuild-essential \
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y curl nodejs build-essential \
     && npm i -g yarn
+    && rm -rf /var/lib/apt/lists/*

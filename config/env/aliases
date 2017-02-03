@@ -9,3 +9,14 @@ alias xon='mv /tmp/20-xdebug.ini /etc/php/7.0/cli/conf.d'
 alias xoff='mv /etc/php/7.0/cli/conf.d/20-xdebug.ini /tmp'
 
 alias profile='XDEBUG_CONFIG="profiler_enable=1 xdebug.profiler_output_name=profiler.out.%p profiler_output_dir=." php'
+
+alias sf='bin/console'
+alias dev='sf --env=dev'
+alias test='sf --env=test'
+alias prod='sf --env=prod'
+
+alias nuke='dev d:d:d --force && dev d:d:c'
+
+alias doctrine:cc:dev='dev doctrine:cache:clear-metadata && dev doctrine:cache:clear-query && dev doctrine:cache:clear-result'
+alias doctrine:cc:test='test doctrine:cache:clear-metadata && test doctrine:cache:clear-query && test doctrine:cache:clear-result'
+alias doctrine:cc:prod='prod doctrine:cache:clear-metadata && prod doctrine:cache:clear-query && prod doctrine:cache:clear-result'

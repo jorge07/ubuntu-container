@@ -22,6 +22,7 @@ RUN locale-gen en_US.UTF-8 \
       php7.0-geoip \
       php7.0-intl \
       php7.0-ldap \
+      php7.0-fpm \
       php7.0-mcrypt \
       php7.0-readline \
       php7.0-xml \

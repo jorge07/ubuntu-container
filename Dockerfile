@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
       supervisor \
       git \
       ant \
+      php7.0-fpm \
       php7.0-xdebug \
 
     && rm -rf /var/lib/apt/lists/* \
